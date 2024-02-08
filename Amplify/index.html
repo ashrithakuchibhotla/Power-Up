@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Power Up!!!</title>
+    <!-- Styling for the client UI -->
+    <style>
+    h1 {
+        color: #8bebe0;
+        font-family: system-ui;
+		margin-left: 20px;
+		text-align: center;
+        }
+	body {
+        background-color: #6a2c4b;
+        }
+    label {
+        color: #f6f2f7;
+        font-family: system-ui;
+        font-size: 20px;
+        margin-left: 20px;
+		margin-top: 20px;
+        }
+     button {
+        background-color: #ae7ee4;
+		border-color: #fbfcf9;
+		color: #FFFFFF;
+        font-family: system-ui;
+        font-size: 20px;
+		font-weight: bold;
+        margin-left: 30px;
+		margin-top: 20px;
+		width: 140px;
+        }
+	 input {
+        color: #050606;
+        font-family: system-ui;
+        font-size: 20px;
+        margin-left: 10px;
+		margin-top: 20px;
+		width: 100px;
+        }
+    </style>
+    <script>
+        // callAPI function that takes the base and exponent numbers as parameters
+        var callAPI = (base,exponent)=>{
+            // instantiate a headers object
+            var myHeaders = new Headers();
+            // add content type header to object
+            myHeaders.append("Content-Type", "application/json");
+            // using built in JSON utility package turn object to string and store in a variable
+            var raw = JSON.stringify({"base":base,"exponent":exponent});
+            // create a JSON object with parameters for API call and store in a variable
+            var requestOptions = {
+                method: 'POST',
+                headers: myHeaders,
+                body: raw,
+                redirect: 'follow'
+            };
+            // make API call with parameters and use promises to get response
+            fetch("https://pbqj0qg8ec.execute-api.us-east-1.amazonaws.com/dev", requestOptions)
+            .then(response => response.text())
+            .then(result => alert(JSON.parse(result).body))
+            .catch(error => console.log('error', error));
+        }
+    </script>
+</head>
+<body>
+    <h1>Power Up!!!</h1>
+	<form>
+        <label>The Base = </label>
+        <input type="text" id="base">
+        <br><label>To the Power of = </label>
+        <input type="text" id="exponent">
+        <!-- set button onClick method to call function we defined passing input values as parameters -->
+       <br> <button type="button" onclick="callAPI(document.getElementById('base').value,document.getElementById('exponent').value)">Result</button>
+    </form>
+</body>
+</html>
